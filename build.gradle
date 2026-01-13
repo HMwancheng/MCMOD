@@ -101,8 +101,8 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation "net.caffeinemc:sodium-fabric:0.8.2-SNAPSHOT+mc1.21.8+"
-    modImplementation "net.caffeinemc:lithium-fabric:0.21.0-SNAPSHOT+mc1.21.8+"
+    modImplementation "net.caffeinemc:sodium-fabric:0.8.2-SNAPSHOT"
+    modImplementation "net.caffeinemc:lithium-fabric:0.21.0-SNAPSHOT"
 
     //modRuntimeOnlyMsk "drouarb:nvidium:0.4.1-beta4:1.21.6@jar"
     //modCompileOnly "drouarb:nvidium:0.4.1-beta4:1.21.6@jar"
