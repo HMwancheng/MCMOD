@@ -1,7 +1,7 @@
 package me.cortex.voxy.client;
 
 import me.cortex.voxy.client.compat.FlashbackCompat;
-import me.cortex.voxy.client.config.VoxyConfig;
+import me.cortex.voxy.client.compat.SodiumCompat;
 import me.cortex.voxy.client.mixin.sodium.AccessorSodiumWorldRenderer;
 import me.cortex.voxy.common.Logger;
 import me.cortex.voxy.common.StorageConfigUtil;
@@ -19,6 +19,8 @@ import me.cortex.voxy.commonImpl.WorldIdentifier;
 import net.caffeinemc.mods.sodium.client.render.SodiumWorldRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.storage.LevelResource;
+
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -44,16 +46,37 @@ public class VoxyClientInstance extends VoxyInstance {
     public void updateDedicatedThreads() {
         int target = VoxyConfig.CONFIG.serviceThreads;
         if (!VoxyConfig.CONFIG.dontUseSodiumBuilderThreads) {
-            var swr = SodiumWorldRenderer.instanceNullable();
-            if (swr != null) {
-                var rsm = ((AccessorSodiumWorldRenderer) swr).getRenderSectionManager();
-                if (rsm != null) {
-                    this.setNumThreads(Math.max(1, target - rsm.getBuilder().getTotalThreadCount()));
-                    return;
+            try {
+                var swr = SodiumWorldRenderer.instanceNullable();
+                if (swr != null) {
+                    int builderThreads = getBuilderThreadCount(swr);
+                    if (builderThreads > 0) {
+                        this.setNumThreads(Math.max(1, target - builderThreads));
+                        return;
+                    }
                 }
+            } catch (Exception e) {
+                Logger.warn("Failed to get Sodium builder threads: " + e.getMessage());
             }
         }
         this.setNumThreads(target);
+    }
+
+    private int getBuilderThreadCount(Object sodiumWorldRenderer) {
+        try {
+            Object rsm = ((AccessorSodiumWorldRenderer) sodiumWorldRenderer).getRenderSectionManager();
+            if (rsm != null) {
+                Method getBuilderMethod = rsm.getClass().getMethod("getBuilder");
+                Object builder = getBuilderMethod.invoke(rsm);
+                if (builder != null) {
+                    Method getTotalThreadCountMethod = builder.getClass().getMethod("getTotalThreadCount");
+                    return (int) getTotalThreadCountMethod.invoke(builder);
+                }
+            }
+        } catch (Exception e) {
+            Logger.warn("Failed to get builder thread count using reflection: " + e.getMessage());
+        }
+        return 0;
     }
 
     @Override
