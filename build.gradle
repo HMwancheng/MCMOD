@@ -116,12 +116,12 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     if (true) {
-        modImplementation "maven.modrinth:sodium:mc1.21.8-0.8.2-fabric"
+        modImplementation "maven.modrinth:sodium:0.8.2"
     } else {
         modImplementation "net.caffeinemc:sodium-fabric:0.8.2-SNAPSHOT+mc1.21.8+"
     }
 
-    modImplementation("maven.modrinth:lithium:mc1.21.8-0.21.0-fabric")
+    modImplementation("maven.modrinth:lithium:0.21.0")
 
     //modRuntimeOnlyMsk "drouarb:nvidium:0.4.1-beta4:1.21.6@jar"
     modCompileOnly "drouarb:nvidium:0.4.1-beta4:1.21.6@jar"
