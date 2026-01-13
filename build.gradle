@@ -99,10 +99,10 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}+1.21.8"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}+${project.minecraft_version}"
 
-    modImplementation "net.caffeinemc:sodium-fabric:0.8.2+mc1.21.8"
-    modImplementation "net.caffeinemc:lithium-fabric:0.21.0+mc1.21.8"
+    modImplementation "net.caffeinemc:sodium-fabric:mc${project.minecraft_version}-0.8.2-fabric"
+    modImplementation "net.caffeinemc:lithium-fabric:mc${project.minecraft_version}-0.21.0-fabric"
 
     //modRuntimeOnlyMsk "drouarb:nvidium:0.4.1-beta4:1.21.6@jar"
     modCompileOnly "drouarb:nvidium:0.4.1-beta4:1.21.6@jar"
