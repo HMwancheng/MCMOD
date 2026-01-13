@@ -1,8 +1,6 @@
 package me.cortex.voxy.client;
 
 import me.cortex.voxy.client.compat.FlashbackCompat;
-import me.cortex.voxy.client.compat.SodiumCompat;
-import me.cortex.voxy.client.mixin.sodium.AccessorSodiumWorldRenderer;
 import me.cortex.voxy.common.Logger;
 import me.cortex.voxy.common.StorageConfigUtil;
 import me.cortex.voxy.common.config.ConfigBuildCtx;
@@ -64,7 +62,8 @@ public class VoxyClientInstance extends VoxyInstance {
 
     private int getBuilderThreadCount(Object sodiumWorldRenderer) {
         try {
-            Object rsm = ((AccessorSodiumWorldRenderer) sodiumWorldRenderer).getRenderSectionManager();
+            Method getRenderSectionManagerMethod = sodiumWorldRenderer.getClass().getMethod("getRenderSectionManager");
+            Object rsm = getRenderSectionManagerMethod.invoke(sodiumWorldRenderer);
             if (rsm != null) {
                 Method getBuilderMethod = rsm.getClass().getMethod("getBuilder");
                 Object builder = getBuilderMethod.invoke(rsm);
