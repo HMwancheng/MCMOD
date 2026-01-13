@@ -41,7 +41,8 @@
     "minecraft": ["1.21.8"],
     "fabricloader": ">=0.14.22",
     "fabric-api": ">=0.137.0",
-    "sodium": "=0.8.2"
+    "sodium": ">=0.8.2",
+    "lithium": ">=0.21.0"
   },
   "accessWidener": "voxy.accesswidener"
 }
