@@ -13,6 +13,33 @@ base {
 }
 
 repositories {
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
+
+    exclusiveContent {
+        forRepository {
+            maven {
+                name "caffeinemcRepository"
+                url "https://maven.caffeinemc.net/snapshots"
+            }
+        }
+        filter {
+            includeGroup "net.caffeinemc"
+        }
+    }
+
+    maven { url = "https://maven.shedaniel.me/" }
+    maven { url = "https://maven.terraformersmc.com/releases/" }
+
     maven {
         name = "Fabric Maven"
         url = "https://maven.fabricmc.net/"
@@ -73,6 +100,14 @@ dependencies {
 
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    if (true) {
+        modImplementation "maven.modrinth:sodium:mc1.21.8-0.8.2-fabric"
+    } else {
+        modImplementation "net.caffeinemc:sodium-fabric:0.8.2-SNAPSHOT+mc1.21.8+"
+    }
+
+    modImplementation("maven.modrinth:lithium:mc1.21.8-0.21.0-fabric")
 
     //modRuntimeOnlyMsk "drouarb:nvidium:0.4.1-beta4:1.21.6@jar"
     modCompileOnly "drouarb:nvidium:0.4.1-beta4:1.21.6@jar"
